@@ -1,25 +1,29 @@
-import css from './VoteOptions.module.css';
-import { VoteType } from '../../types/votes';
+import type { Votes, VoteType } from "../../types/votes.ts";
+import css from './VoteOptions.module.css'
 
-interface VoteOptionsProps {
+export interface VoteOptionsProps {
+    votes: Votes;
     onVote: (type: VoteType) => void;
     onReset: () => void;
-    canReset: boolean;
+    canReset: boolean
 }
 
-const VoteOptions = ({ onVote, onReset, canReset }: VoteOptionsProps) => {
+const VoteOptions = ({ votes, onVote, onReset, canReset }: VoteOptionsProps) => {
+    const capitalizeFirstLetter = (str: string): string => {
+        return str[0].toUpperCase() + str.slice(1);
+    }
+    const voteKeys = Object.keys(votes) as VoteType[];
     return (
-        <div className={css.container}>
-            <button className={css.button} onClick={() => onVote('good')}>Good</button>
-            <button className={css.button} onClick={() => onVote('neutral')}>Neutral</button>
-            <button className={css.button} onClick={() => onVote('bad')}>Bad</button>
+        <div>
+            {voteKeys.map(btn => (
+                <button key={btn} onClick={() => onVote(btn)} className={css.button}>{capitalizeFirstLetter(btn)}</button>
+            ))}
             {canReset && (
-                <button className={`${css.button} ${css.reset}`} onClick={onReset}>
-                    Reset
-                </button>
+                <button onClick={onReset} className={`${css.button} ${css.reset}`}>Reset</button>
             )}
         </div>
     );
 };
+
 
 export default VoteOptions;
