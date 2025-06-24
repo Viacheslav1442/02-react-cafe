@@ -13,6 +13,7 @@
     font-size: 16px;
     font-weight: 500;
     cursor: pointer;
+    margin-right: 10px;
     transition: background-color 0.2s ease, border-color 0.2s ease;
     min-width: 120px;
 }
